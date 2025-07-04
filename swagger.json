@@ -1,0 +1,164 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API de Clientes y Transferencias",
+    "description": "Documentación de endpoints para la gestión de clientes, usuarios y transferencias"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/clientes": {
+      "get": {
+        "summary": "Listar todos los clientes",
+        "tags": ["Clientes"],
+        "responses": {
+          "200": {
+            "description": "Lista de clientes"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear cliente",
+        "tags": ["Clientes"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CreateCliente" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Cliente creado" },
+          "400": { "description": "Datos inválidos" }
+        }
+      }
+    },
+    "/clientes/{numero_documento}": {
+      "get": {
+        "summary": "Consultar cliente por número de documento",
+        "tags": ["Clientes"],
+        "parameters": [
+          {
+            "name": "numero_documento",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Cliente encontrado" },
+          "404": { "description": "Cliente no existente" }
+        }
+      }
+    },
+    "/transferencias": {
+      "post": {
+        "summary": "Crear transferencia",
+        "tags": ["Transferencias"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CreateTransferencia" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Transferencia creada" },
+          "400": { "description": "Datos inválidos" },
+          "404": { "description": "Usuario no encontrado" }
+        }
+      }
+    },
+    "/transferencias/{id}": {
+      "delete": {
+        "summary": "Eliminar transferencia por ID",
+        "tags": ["Transferencias"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Transferencia eliminada" },
+          "404": { "description": "Transferencia no encontrada" }
+        }
+      }
+    },
+    "/transferencias/{numero_documento_cliente}": {
+      "get": {
+        "summary": "Obtener transferencias por cliente",
+        "tags": ["Transferencias"],
+        "parameters": [
+          {
+            "name": "numero_documento_cliente",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Transferencias del cliente" },
+          "404": { "description": "Cliente no encontrado" }
+        }
+      }
+    },
+    "/transferencias/{numero_documento_cliente}/{numero_documento_usuario}": {
+      "get": {
+        "summary": "Obtener transferencias por cliente y usuario",
+        "tags": ["Transferencias"],
+        "parameters": [
+          {
+            "name": "numero_documento_cliente",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "numero_documento_usuario",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Transferencias del usuario" },
+          "404": { "description": "Cliente o usuario no encontrado" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CreateCliente": {
+      "type": "object",
+      "properties": {
+        "nombre": { "type": "string" },
+        "tipo_documento": { "type": "string" },
+        "numero_documento": { "type": "string" },
+        "email": { "type": "string", "format": "email" }
+      },
+      "required": ["nombre", "tipo_documento", "numero_documento", "email"]
+    },
+    "CreateTransferencia": {
+      "type": "object",
+      "properties": {
+        "tipo_transferencia": {
+          "type": "string",
+          "enum": ["recaudo", "pago en linea", "consignacion"]
+        },
+        "fecha": { "type": "string", "format": "date-time" },
+        "valor": { "type": "number" },
+        "usuario_id": { "type": "string" }
+      },
+      "required": ["tipo_transferencia", "fecha", "valor", "usuario_id"]
+    }
+  }
+}
