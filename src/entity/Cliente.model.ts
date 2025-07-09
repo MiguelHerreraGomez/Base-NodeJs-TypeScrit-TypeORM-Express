@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity("clientes")
+@Entity('clientes')
 export class Cliente {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,7 +11,7 @@ export class Cliente {
   @Column()
   tipo_documento: string;
 
-  @Column()
+  @Column({ select: false })
   numero_documento: number;
 
   @Column()
