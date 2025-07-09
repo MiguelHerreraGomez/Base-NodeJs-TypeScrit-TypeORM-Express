@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { Cliente } from "../entity/Cliente.model";
-import { CreateClienteDto } from "../dtos/cliente/CreateClienteDTO";
+import { CreateClienteDto } from "../dtos/cliente/CreateClienteDto";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 
@@ -49,6 +49,7 @@ export default {
   // Crear Cliente
   async createClient(req: Request, res: Response): Promise<Response> {
     const dto = plainToInstance(CreateClienteDto, req.body);
+    dto.numero_documento
     const errors = await validate(dto, {
       whitelist: true,
       forbidNonWhitelisted: true,

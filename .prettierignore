@@ -1,0 +1,27 @@
+# Archivos y directorios a ignorar por Prettier
+node_modules/
+dist/
+build/
+coverage/
+.git/
+*.log
+*.lock
+.env
+.env.*
+
+# Archivos de configuración que no queremos formatear
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Archivos de salida
+*.min.js
+*.min.css
+
+# Documentación generada
+docs/
+
+# Archivos de base de datos
+*.db
+*.sqlite
+*.sqlite3
